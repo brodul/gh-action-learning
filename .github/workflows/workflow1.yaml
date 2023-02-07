@@ -36,7 +36,10 @@ jobs:
     name: Build Readme
     needs: [job1, decision]
     if: |
-      needs.decision.outputs.tac == 'false'
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      needs.decision.outputs.tac != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Cache README.md.tac
