@@ -1,0 +1,32 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  decision:
+    runs-on: ubuntu-latest
+    outputs:
+      readme: ${{ steps.changes.outputs.readme }}
+    steps:
+      - id: changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            readme:
+              - 'README.md'
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  job1:
+    if: ${{ needs.decision.outputs.readme == 'false'}}
+    needs: [decision]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  job2:
+    needs: [job1]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  job3:
+    needs: [job2]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
