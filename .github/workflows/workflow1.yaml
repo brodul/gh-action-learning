@@ -23,7 +23,7 @@ jobs:
           gh extension install actions/gh-actions-cache
           KEY=tac
           CACHE_HIT=$(gh actions-cache list --key $KEY | grep -q $KEY && echo 'true' || echo 'false')
-          echo "cache-hit=$CACHE_HIT" | tee -a $GITHUB_OUTPUT
+          echo "cache-hit=$CACHE_HIT" >> $GITHUB_OUTPUT
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
   job1:
     name: Readme changed
