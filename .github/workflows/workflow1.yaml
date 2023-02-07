@@ -43,6 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: echo "${{ needs.decision.outputs.tac }}"
       - name: Cache README.md.tac
         id: tac
         uses: actions/cache@v3
