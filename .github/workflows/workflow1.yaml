@@ -36,9 +36,6 @@ jobs:
     name: Build Readme
     needs: [job1, decision]
     if: |
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
       needs.decision.outputs.tac == 'false'
     runs-on: ubuntu-latest
     steps:
