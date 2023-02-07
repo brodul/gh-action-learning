@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       readme: ${{ steps.changes.outputs.readme }}
+      tac: ${{ steps.changes.outputs.cache-hit }}
     steps:
       - uses: actions/checkout@v3
       - id: changes
@@ -14,22 +15,40 @@ jobs:
           filters: |
             readme:
               - 'README.md'
+      - name: Check if cache key exists
+        id: check-if-cache-current
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh extension install actions/gh-actions-cache
+          KEY=tac
+          CACHE_HIT=$(gh actions-cache list --key $KEY | grep -q $KEY && echo 'true' || echo 'false')
+          echo "cache-hit=$CACHE_HIT" >> $GITHUB_OUTPUT
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
   job1:
+    name: Readme changed
     if: ${{ needs.decision.outputs.readme == 'false'}}
     needs: [decision]
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
   job2:
+    name: Build Readme
     needs: [job1]
     if: |
       always() &&
       !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled')
+      !contains(needs.*.result, 'cancelled') &&
+      needs.decision.outputs.tac == 'false'
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Cache README.md.tac
+        id: tac
+        uses: actions/cache@v3
+        with:
+          path: README.md.tac
+          key: tac
+      - run: tac README.md | tee README.md.tac
   job3:
     needs: [job2]
     runs-on: ubuntu-latest
