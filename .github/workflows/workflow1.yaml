@@ -68,10 +68,12 @@ jobs:
     if: always()
     steps:
     - run: echo "${{ toJSON(needs.*.result) }}"
+    - run: contains('failure', ['success', 'success', 'failure'])
     - run: echo "${{ true && 'failure' || 'success' }}"
     - uses: LouisBrunner/checks-action@v1.6.0
       if: always()
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         name: check action
-        conclusion: ${{ contains('failure', needs.*.result) && 'failure' || 'success' }}
+        # https://github.com/actions/runner/issues/1540
+        conclusion: ${{ contains('failure', [needs.job1.result, needs.job3.result]) && 'failure' || 'success' }}
