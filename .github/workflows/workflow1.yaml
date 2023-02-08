@@ -55,7 +55,7 @@ jobs:
     needs: [job2]
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event." && false
 
   ci-check:
     runs-on: ubuntu-latest
