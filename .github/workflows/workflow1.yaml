@@ -67,7 +67,7 @@ jobs:
     # use always() so if previous jobs fail, this job will still run
     if: always()
     steps:
-    - run: echo "${{ toJSON{needs.*.result} }}"
+    - run: echo "${{ toJSON(needs.*.result) }}"
     - run: echo "${{ true && 'failure' || 'success' }}"
     - uses: LouisBrunner/checks-action@v1.6.0
       if: always()
