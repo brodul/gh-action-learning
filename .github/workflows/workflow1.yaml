@@ -56,3 +56,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+
+  ci-check:
+    runs-on: ubuntu-latest
+    # the jobs need to pass
+    needs: [job1, job2, job3]
+    # use always() so if previous jobs fail, this job will still run
+    if: always()
+    steps:
+      - uses: maxisam/create-summary-check-status@v1
+        with:
+          jobResults: |
+            ${{ needs.job1.result }}
+            ${{ needs.job2.result }}
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          # name showing on the check
+          checkName: CI PASSED
+          # if any result in job1,job2 is [failure,cacelled], the check will be failure, otherwise the check will be success
+          failureStates: |
+            failure
+            cancelled
+          # for PR or Push
+          sha: ${{ github.event.pull_request.head.sha || github.sha }}
