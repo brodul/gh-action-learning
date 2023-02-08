@@ -61,6 +61,9 @@ jobs:
     runs-on: ubuntu-latest
     # the jobs need to pass
     needs: [job1, job2, job3]
+    # enable check changing
+    permissions:
+      pull-requests: write
     # use always() so if previous jobs fail, this job will still run
     if: always()
     steps:
