@@ -69,4 +69,4 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         name: check action
-        conclusion: ${{ contains("failure", needs.*.result) && "failure" || "success" }}
+        conclusion: ${{ contains('failure', needs.*.result) && 'failure' || 'success' }}
