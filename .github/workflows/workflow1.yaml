@@ -63,8 +63,7 @@ jobs:
     needs: [job1, job2, job3]
     # enable check changing
     permissions:
-      pull-requests: write
-      statuses: write
+      checks: write
     # use always() so if previous jobs fail, this job will still run
     if: always()
     steps:
