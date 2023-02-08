@@ -76,4 +76,4 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         name: check action
         # https://github.com/actions/runner/issues/1540
-        conclusion: ${{ contains('failure', [needs.job1.result, needs.job3.result]) && 'failure' || 'success' }}
+        conclusion: ${{ (needs.job1.result == 'failure' || needs.job3.result == 'failure') && 'failure' || 'success' }}
