@@ -68,7 +68,6 @@ jobs:
     if: always()
     steps:
     - run: echo "${{ toJSON(needs.*.result) }}"
-    - run: contains('failure', ['success', 'success', 'failure'])
     - run: echo "${{ true && 'failure' || 'success' }}"
     - uses: LouisBrunner/checks-action@v1.6.0
       if: always()
