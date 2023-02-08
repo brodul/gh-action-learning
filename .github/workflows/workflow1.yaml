@@ -64,17 +64,9 @@ jobs:
     # use always() so if previous jobs fail, this job will still run
     if: always()
     steps:
-      - uses: maxisam/create-summary-check-status@v1
-        with:
-          jobResults: |
-            ${{ needs.job1.result }}
-            ${{ needs.job2.result }}
-          authToken: ${{secrets.GITHUB_TOKEN}}
-          # name showing on the check
-          checkName: CI PASSED
-          # if any result in job1,job2 is [failure,cacelled], the check will be failure, otherwise the check will be success
-          failureStates: |
-            failure
-            cancelled
-          # for PR or Push
-          sha: ${{ github.event.pull_request.head.sha || github.sha }}
+    - uses: LouisBrunner/checks-action@v1.6.0
+      if: always()
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        name: check action
+        conclusion: ${{ contains("failure", needs.*.result) && "failure" || "success" }}
