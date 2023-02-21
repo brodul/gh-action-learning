@@ -4,8 +4,8 @@ on:
   repository_dispatch:
     types: [banana-event]
 jobs:
-  decision:
+  rec:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-        if: ${{ github.event.client_payload.banana != "true" }}
+        if: ${{ github.event.client_payload.banana != true }}

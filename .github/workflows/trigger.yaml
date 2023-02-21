@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   - push
 jobs:
-  decision:
+  trigger:
     runs-on: ubuntu-latest
     steps:
       - name: Repository Dispatch
