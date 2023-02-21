@@ -1,0 +1,11 @@
+name: receive_event
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  repository_dispatch:
+    types: [banana-event]
+jobs:
+  decision:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+        if: ${{ github.event.client_payload.banana != "true" }}

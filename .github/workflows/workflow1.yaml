@@ -74,5 +74,5 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         name: check action
-        # https://github.com/actions/runner/issues/1540
+        # XXX needs.*.result has a bug https://github.com/actions/runner/issues/1540
         conclusion: ${{ (needs.job1.result == 'failure' || needs.job3.result == 'failure') && 'failure' || 'success' }}

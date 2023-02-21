@@ -1,0 +1,13 @@
+name: trigger
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  - push
+jobs:
+  decision:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          event-type: banana-event
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "banana": true}'
