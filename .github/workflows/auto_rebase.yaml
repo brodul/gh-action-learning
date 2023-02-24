@@ -1,0 +1,19 @@
+name: Rebase branch
+on:
+  push:
+    branches:
+    - "main"
+    paths:
+    - test.txt
+jobs:
+  rebase-proto-branch:
+    name: Rebase proto branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: |
+          git checkout test
+          git rebase main --strategy-option=ours
+          git push -f
