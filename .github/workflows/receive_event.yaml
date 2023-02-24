@@ -3,9 +3,25 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   repository_dispatch:
     types: [banana-event]
+  workflow_dispatch:
+
 jobs:
   rec:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
         if: ${{ github.event.client_payload.bananaa == true }}
+      - run: echo "${{ github.sha }}" > test.txt
+      - name: Create version PR
+        uses: peter-evans/create-pull-request@v4
+        with:
+          add-paths: test.txt
+          author:  bla <bla@brodul.dev>
+          body: |+
+            Banana
+
+          branch: test
+          commit-message: Version bump
+          delete-branch: true
+          labels: test
+          title: 'test'
