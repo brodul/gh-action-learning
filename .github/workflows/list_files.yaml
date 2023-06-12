@@ -14,8 +14,8 @@ jobs:
       - name: List flows
         id: flows
         run: |
-          ls -R flows/**/*.py > flow_list.txt
-          echo "::set-output name=flow_files::$(cat file_list.txt)"
+          ls -R flows/**/*.py | jq -R -s -c 'split("\n")[:-1]' > flow_list.txt
+          echo "::set-output name=flow_files::$(cat flow_list.txt)"
 
 
   job:
